@@ -24,7 +24,7 @@ const NotificationsFeed = () => {
   
   return (
     <div className="flex flex-col">
-      {fetchedNotifications.map((notification: Record<string, any>) => (
+      {fetchedNotifications ? fetchedNotifications.map((notification: Record<string, any>) => (
         <div
           key={notification.id}
           className="flex flex-row items-center p-6 gap-4 border-b-[1px] border-neutral-800"
@@ -32,7 +32,7 @@ const NotificationsFeed = () => {
           <BiSolidBellRing color="white" size={32} />
           <p className="text-white">{notification.body}</p>
         </div>
-      ))}
+      )) : []}
     </div>
   );
 };
