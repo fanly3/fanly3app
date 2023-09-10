@@ -25,6 +25,7 @@ model User {
   updatedAt       DateTime  @updatedAt
   followingIds    String[]  @db.ObjectId
   hasNotification Boolean?
+  subscriberIds   String[]  @db.ObjectId
 
   posts         Post[]
   comments      Comment[]
@@ -39,6 +40,7 @@ model Post {
   updatedAt DateTime @updatedAt
   userId    String   @db.ObjectId
   likedIds  String[] @db.ObjectId
+  type      PostType     @default(EVERYONE)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -65,3 +67,11 @@ model Notification {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+enum PostType {
+  EVERYONE
+  SUBSCRIBER
+  FOLLOWER
+  REGISTERED
+}
+
