@@ -10,6 +10,8 @@ import CommentFeed from "@/components/posts/CommentFeed";
 
 
 
+
+
 const PostView = () => {
   const router = useRouter();
   const { postId } = router.query;
@@ -27,7 +29,7 @@ const PostView = () => {
   return ( 
     <>
       <Header showBackArrow label="Tweet" />
-      <PostItem data={fetchedPost} />
+      <PostItem postId={postId as string} data={fetchedPost} />
       <Form postId={postId as string} isComment placeholder="Post your comment" />
     <CommentFeed comments={fetchedPost?.comments} />
     </>
