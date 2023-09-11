@@ -27,16 +27,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Invalid ID');
     }
 
-    let updatedFollowingIds = [...(user.followingIds || [])];
+    let updatedSubscribingIds = [...(currentUser.subscriberIds || [])];
 
     if (req.method === 'POST') {
-      updatedFollowingIds.push(userId);
+      updatedSubscribingIds.push(userId);
 
       // NOTIFICATION PART START
       try {
         await prisma.notification.create({
           data: {
-            body: 'Someone followed you!',
+            body: 'Someone subscribed you!',
             userId,
           },
         });
@@ -57,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'DELETE') {
-      updatedFollowingIds = updatedFollowingIds.filter((followingId) => followingId !== userId);
+      updatedSubscribingIds = updatedSubscribingIds.filter((subscribingId) => subscribingId !== userId);
     }
 
     const updatedUser = await prisma.user.update({
@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         id: currentUser.id
       },
       data: {
-        followingIds: updatedFollowingIds
+        subscriberIds: updatedSubscribingIds
       }
     });
 

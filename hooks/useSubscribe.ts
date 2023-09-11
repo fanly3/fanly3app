@@ -6,19 +6,19 @@ import useCurrentUser from "./useCurrentUser";
 import useLoginModal from "./useLoginModal";
 import useUser from "./useUser";
 
-const useFollow = (userId: string) => {
+const useSubscribe = (userId: string) => {
   const { data: currentUser, mutate: mutateCurrentUser } = useCurrentUser();
   const { mutate: mutateFetchedUser } = useUser(userId);
 
   const loginModal = useLoginModal();
 
-  const isFollowing = useMemo(() => {
-    const list = currentUser?.followingIds || [];
+  const isSubscribing = useMemo(() => {
+    const list = currentUser?.subscriberIds || [];
 
     return list.includes(userId);
   }, [currentUser, userId]);
 
-  const toggleFollow = useCallback(async () => {
+  const toggleSubscribe = useCallback(async () => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
@@ -26,10 +26,10 @@ const useFollow = (userId: string) => {
     try {
       let request;
 
-      if (isFollowing) {
-        request = () => axios.delete('/api/following', { data: { userId } });
+      if (isSubscribing) {
+        request = () => axios.delete('/api/subscribing', { data: { userId } });
       } else {
-        request = () => axios.post('/api/following', { userId });
+        request = () => axios.post('/api/subscribing', { userId });
       }
 
       await request();
@@ -40,12 +40,12 @@ const useFollow = (userId: string) => {
     } catch (error) {
       toast.error('Something went wrong');
     }
-  }, [currentUser, isFollowing, userId, mutateCurrentUser, mutateFetchedUser, loginModal]);
+  }, [currentUser, isSubscribing, userId, mutateCurrentUser, mutateFetchedUser, loginModal]);
 
   return {
-    isFollowing,
-    toggleFollow,
+    isSubscribing,
+    toggleSubscribe,
   }
 }
 
-export default useFollow;
+export default useSubscribe;

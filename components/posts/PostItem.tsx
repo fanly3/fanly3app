@@ -100,11 +100,11 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, postId }) => {
             <span className="text-neutral-500 text-sm">{createdAt}</span>
           </div>
           <div className="text-white mt-1">{data.body}</div>
-          <div>
-          {fetchedPost?.image ?  <div className="bg-neutral-700 h-44 relative">
-              {fetchedPost?.image && (
+          <div className="pt-4">
+          {data.image ?  <div className="bg-neutral-700 h-48 w-48   md:h-80 md:w-80  relative">
+              {data.image && (
                 <Image
-                  src={fetchedPost.image}
+                  src={data.image}
                   fill
                   alt="Cover Image"
                   style={{ objectFit: "cover" }}

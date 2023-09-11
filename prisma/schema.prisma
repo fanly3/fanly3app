@@ -33,14 +33,15 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  body      String
-  image     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String   @db.ObjectId
-  likedIds  String[] @db.ObjectId
-  type      PostType     @default(EVERYONE)
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  body          String
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  userId        String   @db.ObjectId
+  likedIds      String[] @db.ObjectId
+  subscriberIds String[] @db.ObjectId
+  type          PostType @default(EVERYONE)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -73,5 +74,5 @@ enum PostType {
   SUBSCRIBER
   FOLLOWER
   REGISTERED
+  POSTSUB
 }
-

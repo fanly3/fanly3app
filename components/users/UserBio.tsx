@@ -7,6 +7,11 @@ import Button from "../Button";
 import { BiCalendar } from "react-icons/bi";
 import useEditModal from "@/hooks/useEditModal";
 import useFollow from "@/hooks/useFollow";
+import { User } from "@prisma/client";
+
+
+import Link from "next/link";
+import useSubscribe from "@/hooks/useSubscribe";
 
 interface UserBioProps {
   userId: string;
@@ -15,10 +20,12 @@ interface UserBioProps {
 const UserBio: React.FC<UserBioProps> = ({ userId }) => {
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId);
+ 
 
   const editModal = useEditModal();
 
-  const {isFollowing , toggleFollow} = useFollow(userId);
+  const { isFollowing, toggleFollow } = useFollow(userId);
+  const { isSubscribing, toggleSubscribe } = useSubscribe(userId);
 
   const createdAt = useMemo(() => {
     if (!fetchedUser?.createdAt) {
@@ -34,7 +41,20 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         {currentUser?.id === userId ? (
           <Button secondary label="Edit" onClick={editModal.onOpen} />
         ) : (
-          <Button onClick={toggleFollow} label={isFollowing ? "Unfollow" : "Follow"} secondary={!isFollowing} outline={isFollowing}/>
+          <div className="flex justify-center items-center md:flex-row flex-col gap-4">
+            <Button
+              onClick={toggleFollow}
+              label={isFollowing ? "Unfollow" : "Follow"}
+              secondary={!isFollowing}
+              outline={isFollowing}
+            />
+            <Button
+              onClick={toggleSubscribe}
+              label={isSubscribing ? "Cancel" : "Subscribe"}
+              secondary={!isSubscribing}
+              outline={isSubscribing}
+            />
+          </div>
         )}
       </div>
       <div className="mt-8 px-4">
@@ -54,11 +74,26 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         <div className="flex flex-row items-center mt-4 gap-4">
           <div className="flex flex-row items-center gap-1">
             <p className="text-white">{fetchedUser?.followingIds?.length}</p>
-            <p className="text-neutral-500">Following</p>
+            <Link
+              href={"/users/following/" + userId}
+              className="text-neutral-500"
+            >
+              Following
+            </Link>
           </div>
           <div className="flex flex-row items-center gap-1">
             <p className="text-white">{fetchedUser?.followersCount || 0}</p>
+
             <p className="text-neutral-500">Followers</p>
+          </div>
+          <div className="flex flex-row items-center gap-1">
+          <p className="text-white">{fetchedUser?.subscribersCount || 0}</p>
+          <Link
+              href={"/users/subscribing/" + userId}
+              className="text-neutral-500"
+            >
+              Subscribers
+            </Link>
           </div>
         </div>
       </div>
