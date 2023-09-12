@@ -1,4 +1,5 @@
-import { BsHouseFill, BsBellFill } from "react-icons/bs";
+import { BsHouseFill, BsBellFill, BsPeopleFill } from "react-icons/bs";
+import { RiUserFollowFill,RiUserFollowLine} from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import SidebarLogo from "./SidebarLogo";
@@ -21,6 +22,20 @@ const Sidebar = () => {
       icon: BsBellFill,
       auth:true,
       alert:currentUser?.hasNotification
+    },
+    {
+      label: "Subscriptions",
+      href: `/users/subscribing/${currentUser?.id}`,
+      icon: RiUserFollowFill,
+      auth:true,
+      
+    },
+    {
+      label: "Suggestions",
+      href: `/suggestions`,
+      icon: BsPeopleFill,
+      auth:true,
+      
     },
     {
       label: "Profile",

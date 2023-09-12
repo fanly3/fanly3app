@@ -7,7 +7,7 @@ interface SubscriberProps {
   userId: string;
 }
 
-const SubscribedList: React.FC<SubscriberProps> = ({ userId }) => {
+const SubscriberList: React.FC<SubscriberProps> = ({ userId }) => {
   const { data: fetchedSubscribers } = useSubscriber(userId);
 
   return (
@@ -29,6 +29,7 @@ const SubscribedList: React.FC<SubscriberProps> = ({ userId }) => {
                 </div>
               </div>
             ))}
+           
           </div>
         </div>
       ) : (
@@ -38,4 +39,4 @@ const SubscribedList: React.FC<SubscriberProps> = ({ userId }) => {
   );
 };
 
-export default SubscribedList;
+export default SubscriberList;

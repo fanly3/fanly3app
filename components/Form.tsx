@@ -1,17 +1,17 @@
-import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
-import useLoginModal from '@/hooks/useLoginModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
-import useCurrentUser from '@/hooks/useCurrentUser';
-import usePosts from '@/hooks/usePosts';
+import useLoginModal from "@/hooks/useLoginModal";
+import useRegisterModal from "@/hooks/useRegisterModal";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import usePosts from "@/hooks/usePosts";
 
-
-import Avatar from './Avatar';
-import Button from './Button';
-import ImageUpload from './ImageUpload';
-import PostImage from './PostImage';
+import Avatar from "./Avatar";
+import Button from "./Button";
+import ImageUpload from "./ImageUpload";
+import PostImage from "./PostImage";
+import PostType from "./posts/PostType";
 
 interface FormProps {
   placeholder: string;
@@ -25,14 +25,12 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
 
   const { data: currentUser } = useCurrentUser();
   const { mutate: mutatePosts } = usePosts();
- 
 
-  const [body, setBody] = useState('');
+  const [body, setBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [image , setImage] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-   
     setImage(currentUser?.image);
   }, [currentUser]);
 
@@ -40,16 +38,15 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
     try {
       setIsLoading(true);
 
-      const url = isComment ? `/api/comments?postId=${postId}` : '/api/posts';
+      const url = isComment ? `/api/comments?postId=${postId}` : "/api/posts";
 
       await axios.post(url, { body, image });
 
-      toast.success('Post created');
-      setBody('');
+      toast.success("Post created");
+      setBody("");
       mutatePosts();
-     
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -80,9 +77,9 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
                 placeholder-neutral-500 
                 text-white
               "
-              placeholder={placeholder}>
-            </textarea>
-            <hr 
+              placeholder={placeholder}
+            ></textarea>
+            <hr
               className="
                 opacity-0 
                 peer-focus:opacity-100 
@@ -92,14 +89,24 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
                 transition"
             />
             <div className="mt-4 flex flex-row justify-between">
-              <PostImage onChange={(image) => setImage(image)}></PostImage>
-              <Button disabled={isLoading || !body} onClick={onSubmit} label="Post" />
+              <div className="flex items-center gap-3">
+                <PostImage onChange={(image) => setImage(image)}></PostImage>
+                <PostType/>
+              </div>
+
+              <Button
+                disabled={isLoading || !body}
+                onClick={onSubmit}
+                label="Post"
+              />
             </div>
           </div>
         </div>
       ) : (
         <div className="py-8">
-          <h1 className="text-white text-2xl text-center mb-4 font-bold">Welcome to Fanly3</h1>
+          <h1 className="text-white text-2xl text-center mb-4 font-bold">
+            Welcome to Fanly3
+          </h1>
           <div className="flex flex-row items-center justify-center gap-4">
             <Button label="Login" onClick={loginModal.onOpen} />
             <Button label="Register" onClick={registerModal.onOpen} secondary />

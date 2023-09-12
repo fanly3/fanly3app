@@ -105,17 +105,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
                   Subscriber
                 </Link>
               </div>
-              <div className="flex flex-row items-center gap-1">
-                <p className="text-white">
-                  {fetchedUser?.subscriberIds?.length}{" "}
-                </p>
-                <Link
-                  href={"/users/subscribing/" + userId}
-                  className="text-neutral-500"
-                >
-                  Subscribing
-                </Link>
-              </div>
+             
             </div>
           </div>
         ) : null}
