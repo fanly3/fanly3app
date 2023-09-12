@@ -12,13 +12,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     if (req.method === 'POST') {
       const { currentUser } = await serverAuth(req, res);
-      const { body , image } = req.body;
-      
+      const { body , image , typeID } = req.body;
+    
+      console.log("post type id"+typeID);
 
       const post = await prisma.post.create({
         data: {
           body,
           image,
+          typeId : typeID ,
           userId: currentUser.id
         }
       });

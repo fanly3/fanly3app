@@ -19,6 +19,8 @@ interface FormProps {
   postId?: string;
 }
 
+
+
 const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -29,28 +31,32 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   const [body, setBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState("");
-
+  const [typeID, setPostTypeId] = useState("");
+/*
   useEffect(() => {
     setImage(currentUser?.image);
-  }, [currentUser]);
-
+    setPostTypeId(postTypeId)
+  }, [currentUser , postTypeId]);
+*/
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
-
+      console.log(typeID)
+      
       const url = isComment ? `/api/comments?postId=${postId}` : "/api/posts";
 
-      await axios.post(url, { body, image });
+      await axios.post(url, { body, image , typeID });
 
       toast.success("Post created");
       setBody("");
+      setImage("");
       mutatePosts();
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
-  }, [body, mutatePosts, isComment, postId, image]);
+  }, [body, mutatePosts, isComment, postId, image, typeID]);
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">
@@ -91,8 +97,22 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
             <div className="mt-4 flex flex-row justify-between">
               <div className="flex items-center gap-3">
                 <PostImage onChange={(image) => setImage(image)}></PostImage>
-                <PostType/>
+
+                <select
+                  onChange={(event) => setPostTypeId(event?.target.value)}     
+                     
+                  name="Visiblity"
+                  id="vis"
+                  className="rounded-xl px-2 py-1 text-xs text-neutral-300 bg-neutral-600"
+                >
+                  <option value={"0"}>Everyone</option>
+                  <option value={"1"}>Followers</option>
+                  <option value={"2"}>Subscribers</option>
+                  <option value={"3"}>Post Sub</option>
+                  <option value={"4"}>Registered</option>
+                </select>
               </div>
+              <p className="text-white">{typeID}</p>
 
               <Button
                 disabled={isLoading || !body}

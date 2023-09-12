@@ -7,7 +7,9 @@ const FollowBar = () => {
   const { data: users = [] } = useUsers();
   const [more , setMore] = useState(false)
 
-  const slicedUsers = more ?  users : users.slice(0, 4);
+  const maxUsers = users.slice(0,6)
+
+  const slicedUsers = more ?  maxUsers : users.slice(0, 4);
 
   
 

@@ -1,5 +1,6 @@
 import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
+import Header from "@/components/Header";
 import useUsers from "@/hooks/useUsers";
 
 import { useState } from "react";
@@ -14,6 +15,8 @@ const FollowBar = () => {
 
  
   return (
+    <>
+    <Header label="Suggestions" showBackArrow/>
     <div className="px-6 py-4 ">
       <div className="bg-neutral-800 rounded-xl p-4">
         <h2 className="text-white text-xl font-semibold">Who to follow</h2>
@@ -37,7 +40,7 @@ const FollowBar = () => {
             
         </div>
       </div>
-    </div>
+    </div></>
   );
 };
 
