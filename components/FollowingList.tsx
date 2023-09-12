@@ -1,5 +1,5 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
-import useFollowers from "@/hooks/useFollowing";
+import useFollowing from "@/hooks/useFollowing";
 import Avatar from "./Avatar";
 
 interface FollowingProps {
@@ -7,7 +7,7 @@ interface FollowingProps {
 }
 
 const FollowingList: React.FC<FollowingProps> = ({ userId }) => {
-  const { data: fetchedFollowers } = useFollowers(userId);
+  const { data: fetchedFollowers } = useFollowing(userId);
 
   return (
     <div className="px-6 py-4 ">

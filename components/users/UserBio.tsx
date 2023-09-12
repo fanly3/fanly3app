@@ -9,7 +9,6 @@ import useEditModal from "@/hooks/useEditModal";
 import useFollow from "@/hooks/useFollow";
 import { User } from "@prisma/client";
 
-
 import Link from "next/link";
 import useSubscribe from "@/hooks/useSubscribe";
 
@@ -20,7 +19,6 @@ interface UserBioProps {
 const UserBio: React.FC<UserBioProps> = ({ userId }) => {
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId);
- 
 
   const editModal = useEditModal();
 
@@ -71,31 +69,56 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
             <p>Joined {createdAt}</p>
           </div>
         </div>
-        <div className="flex flex-row items-center mt-4 gap-4">
-          <div className="flex flex-row items-center gap-1">
-            <p className="text-white">{fetchedUser?.followingIds?.length}</p>
-            <Link
-              href={"/users/following/" + userId}
-              className="text-neutral-500"
-            >
-              Following
-            </Link>
-          </div>
-          <div className="flex flex-row items-center gap-1">
-            <p className="text-white">{fetchedUser?.followersCount || 0}</p>
+        {currentUser?.id === fetchedUser?.id ? (
+          <div className="flex flex-col md:flex-row items-start mt-4 gap-4">
+            <div className="flex gap-2">
+              <div className="flex flex-row items-center gap-1">
+                <p className="text-white">
+                  {fetchedUser?.followingIds?.length}
+                </p>
+                <Link
+                  href={"/users/following/" + userId}
+                  className="text-neutral-500"
+                >
+                  Following
+                </Link>
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <p className="text-white">{fetchedUser?.followersCount || 0}</p>
 
-            <p className="text-neutral-500">Followers</p>
+                <Link
+                  href={"/users/followers/" + userId}
+                  className="text-neutral-500"
+                >
+                  Followers
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <div className="flex flex-row items-center gap-1">
+                <p className="text-white">{fetchedUser?.subscribedCount}</p>
+                <Link
+                  href={"/users/subscribed/" + userId}
+                  className="text-neutral-500"
+                >
+                  Subscriber
+                </Link>
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <p className="text-white">
+                  {fetchedUser?.subscriberIds?.length}{" "}
+                </p>
+                <Link
+                  href={"/users/subscribing/" + userId}
+                  className="text-neutral-500"
+                >
+                  Subscribing
+                </Link>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-row items-center gap-1">
-          <p className="text-white">{fetchedUser?.subscribersCount || 0}</p>
-          <Link
-              href={"/users/subscribing/" + userId}
-              className="text-neutral-500"
-            >
-              Subscribers
-            </Link>
-          </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

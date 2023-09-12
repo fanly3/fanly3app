@@ -1,6 +1,6 @@
+import FollowersList from "@/components/FollowersList";
 
 import Header from "@/components/Header";
-import SubscriberList from "@/components/SubscriberList";
 
 import { useRouter } from "next/router";
 
@@ -12,8 +12,8 @@ const UserView = () => {
 
   return (
     <>
-      <Header showBackArrow label="Subscribing" />
-     <SubscriberList userId={userId as string}/>
+      <Header showBackArrow label="Followers" />
+     <FollowersList userId={userId as string}></FollowersList>
       
     </>
   );

@@ -1,13 +1,14 @@
 
+import useSubscriber from "@/hooks/useSubscriber";
 import Avatar from "./Avatar";
-import useSubscribing from "@/hooks/useSubscribing";
+
 
 interface SubscriberProps {
   userId: string;
 }
 
-const SubscriberList: React.FC<SubscriberProps> = ({ userId }) => {
-  const { data: fetchedSubscribers } = useSubscribing(userId);
+const SubscribedList: React.FC<SubscriberProps> = ({ userId }) => {
+  const { data: fetchedSubscribers } = useSubscriber(userId);
 
   return (
     <div className="px-6 py-4 ">
@@ -31,10 +32,10 @@ const SubscriberList: React.FC<SubscriberProps> = ({ userId }) => {
           </div>
         </div>
       ) : (
-        <div className="text-white text-center p-6 text-xl">No Subscribers</div>
+        <div className="text-white text-center p-6 text-xl">No Subscribed Account</div>
       )}
     </div>
   );
 };
 
-export default SubscriberList;
+export default SubscribedList;
