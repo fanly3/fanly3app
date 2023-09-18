@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import useLoginModal from "@/hooks/useLoginModal";
@@ -9,7 +9,6 @@ import usePosts from "@/hooks/usePosts";
 
 import Avatar from "./Avatar";
 import Button from "./Button";
-import ImageUpload from "./ImageUpload";
 import PostImage from "./PostImage";
 
 

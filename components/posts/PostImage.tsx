@@ -1,7 +1,5 @@
 import Image from "next/image";
-import useUser from "@/hooks/useUser";
-import Avatar from "../Avatar";
-import usePost from "@/hooks/usePost";
+
 import useShowMedia from "@/hooks/useShowMedia";
 import { useCallback } from "react";
 import usePostSubscribe from "@/hooks/usePostSubscribe";
@@ -19,7 +17,7 @@ const PostImage: React.FC<PostImageProps> = ({
 }) => {
   const { data: fetchedMedia } = useShowMedia(postId, mediaId);
 
-  const { isSubscribing, toggleSubscribe } = usePostSubscribe(
+  const {toggleSubscribe } = usePostSubscribe(
     postId,
     fetchedUserId
   );

@@ -1,9 +1,7 @@
 import Avatar from "@/components/Avatar";
-import Button from "@/components/Button";
 import Header from "@/components/Header";
 import useUsers from "@/hooks/useUsers";
 
-import { useState } from "react";
 
 
 const FollowBar = () => {

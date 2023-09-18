@@ -1,7 +1,6 @@
 import usePosts from '@/hooks/usePosts';
 import PostItem from './PostItem';
-import usePost from '@/hooks/usePost';
-import useCurrentUser from '@/hooks/useCurrentUser';
+
 
 
 interface PostFeedProps {

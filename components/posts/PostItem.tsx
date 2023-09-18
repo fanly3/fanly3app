@@ -15,7 +15,7 @@ import Avatar from "../Avatar";
 import useLike from "@/hooks/useLike";
 import PostImage from "./PostImage";
 import usePost from "@/hooks/usePost";
-import Image from "next/image";
+
 import usePostDelete from "@/hooks/usePostDelete";
 import useImageModal from "@/hooks/useImageModal";
 import useShowMedia from "@/hooks/useShowMedia";

@@ -1,4 +1,3 @@
-import useCurrentUser from "@/hooks/useCurrentUser";
 import useFollowers from "@/hooks/useFollowers";
 import Avatar from "./Avatar";
 
