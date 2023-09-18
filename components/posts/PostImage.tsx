@@ -2,26 +2,58 @@ import Image from "next/image";
 import useUser from "@/hooks/useUser";
 import Avatar from "../Avatar";
 import usePost from "@/hooks/usePost";
+import useShowMedia from "@/hooks/useShowMedia";
+import { useCallback } from "react";
+import usePostSubscribe from "@/hooks/usePostSubscribe";
 
 interface PostImageProps {
   postId: string;
+  mediaId: string;
+  fetchedUserId: string;
 }
 
-const PostImage: React.FC<PostImageProps> = ({ postId }) => {
-  const { data: fetchedPost } = usePost(postId);
+const PostImage: React.FC<PostImageProps> = ({
+  postId,
+  mediaId,
+  fetchedUserId,
+}) => {
+  const { data: fetchedMedia } = useShowMedia(postId, mediaId);
+
+  const { isSubscribing, toggleSubscribe } = usePostSubscribe(
+    postId,
+    fetchedUserId
+  );
+
+  const postSubscribe = useCallback(
+    (event: any) => {
+      event.stopPropagation();
+
+      toggleSubscribe();
+    },
+    [toggleSubscribe]
+  );
+
   return (
     <div>
-      <div className="bg-neutral-700 h-44 relative">
-        {fetchedPost?.image && (
+      {fetchedMedia?.path ?  <div className="bg-neutral-700 h-80 relative">
+        { fetchedMedia?.path && fetchedMedia?.id !== "1" ? (
           <Image
-            src={fetchedPost.image}
+            src={fetchedMedia?.path}
             fill
             alt="Cover Image"
             style={{ objectFit: "cover" }}
           ></Image>
+        ) : (
+          <Image
+            src="/images/placeholder.png"
+            fill
+            alt="Cover Image"
+            style={{ objectFit: "cover" }}
+            onClick={postSubscribe}
+          ></Image>
         )}
-        
-      </div>
+      </div> : null}
+     
     </div>
   );
 };

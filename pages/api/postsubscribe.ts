@@ -9,65 +9,47 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { userId, credit } = req.body;
+
+    const {postId} = req.body;
 
     const { currentUser } = await serverAuth(req, res);
 
-    if (!userId || typeof userId !== 'string') {
+    if (!postId || typeof postId !== 'string') {
       throw new Error('Invalid ID');
     }
 
-    const user = await prisma.user.findUnique({
+    const post = await prisma.post.findUnique({
       where: {
-        id: userId
+        id: postId
       }
     });
 
-    if(credit <= 0 && user?.subscriberPrice && user?.subscriberPrice > 0.0){
-      throw new Error('Not Credit');
-    }
-    
-
-    if (!user) {
+    if (!post) {
       throw new Error('Invalid ID');
     }
 
-    let updatedSubscribingIds = [...(currentUser.subscriberIds || [])];
+    let updatedSubscribingIds = [...(post.subscriberIds || [])];
 
     if (req.method === 'POST') {
-      updatedSubscribingIds.push(userId);
+      updatedSubscribingIds.push(currentUser.id);
 
       // NOTIFICATION PART START
       try {
         await prisma.notification.create({
           data: {
             body: (currentUser.username + ' subscribed you!'),
-            userId,
+            userId : currentUser.id,
           },
         });
 
         await prisma.user.update({
           where: {
-            id: userId,
+            id: post.id,
           },
           data: {
             hasNotification: true,
           }
         });
-
-        console.log("********----- " +credit)
-
-        if(credit > 0){
-          await prisma.user.update({
-            where: {
-              id: currentUser.id,
-            },
-            data: {
-              credit: credit,
-            }
-          });
-  
-        }
       } catch (error) {
         console.log(error);
       }
@@ -76,19 +58,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'DELETE') {
-      updatedSubscribingIds = updatedSubscribingIds.filter((subscribingId) => subscribingId !== userId);
+      updatedSubscribingIds = updatedSubscribingIds.filter((subscribingId) => subscribingId !== currentUser.id);
     }
 
-    const updatedUser = await prisma.user.update({
+    const updatedPost = await prisma.post.update({
       where: {
-        id: currentUser.id
+        id: postId
       },
       data: {
         subscriberIds: updatedSubscribingIds
       }
     });
 
-    return res.status(200).json(updatedUser);
+    return res.status(200).json(updatedPost);
   } catch (error) {
     console.log(error);
     return res.status(400).end();

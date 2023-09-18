@@ -19,6 +19,8 @@ model User {
   emailVerified   DateTime?
   image           String?
   coverImage      String?
+  credit          Float     @default(0.0)
+  subscriberPrice  Float?
   profileImage    String?
   hashedPassword  String?
   createdAt       DateTime  @default(now())
@@ -33,18 +35,27 @@ model User {
   subscribers   Subscriber[]
 }
 
+model Media {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  type     String
+  path     String
+  uniqueId String
+}
+
 model Post {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  body          String
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  userId        String    @db.ObjectId
-  likedIds      String[]  @db.ObjectId
-  subscriberIds String[]  @db.ObjectId
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments      Comment[]
-  typeId    String?       
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  body           String
+  image          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  subcriberPrice Float?
+  userId         String    @db.ObjectId
+  likedIds       String[]  @db.ObjectId
+  subscriberIds  String[]  @db.ObjectId
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments       Comment[]
+  typeId         String?
+  mediaId        String?
 }
 
 model Comment {
@@ -82,5 +93,5 @@ model Subscriber {
 model PostType {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   postType String
-  postId   String    
+  postId   String
 }

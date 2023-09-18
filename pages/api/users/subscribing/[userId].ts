@@ -32,7 +32,7 @@ export default async function handler(
           in: existingUser.subscriberIds,
         },
       },
-    }); console.log(subscribers)
+    }); 
     return res.status(200).json(subscribers ? subscribers : "");
    
   } catch (error) {

@@ -11,7 +11,7 @@ import Avatar from "./Avatar";
 import Button from "./Button";
 import ImageUpload from "./ImageUpload";
 import PostImage from "./PostImage";
-import PostType from "./posts/PostType";
+
 
 interface FormProps {
   placeholder: string;
@@ -31,7 +31,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   const [body, setBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState("");
-  const [typeID, setPostTypeId] = useState("");
+  const [typeID, setPostTypeId] = useState("0");
 /*
   useEffect(() => {
     setImage(currentUser?.image);
@@ -41,7 +41,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
-      console.log(typeID)
+    
       
       const url = isComment ? `/api/comments?postId=${postId}` : "/api/posts";
 
@@ -50,6 +50,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
       toast.success("Post created");
       setBody("");
       setImage("");
+      setPostTypeId("0")
       mutatePosts();
     } catch (error) {
       toast.error("Something went wrong");
@@ -105,7 +106,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
                   id="vis"
                   className="rounded-xl px-2 py-1 text-xs text-neutral-300 bg-neutral-600"
                 >
-                  <option value={"0"}>Everyone</option>
+                  <option selected value={"0"}>Everyone</option>
                   <option value={"1"}>Followers</option>
                   <option value={"2"}>Subscribers</option>
                   <option value={"3"}>Post Sub</option>

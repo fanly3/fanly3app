@@ -21,6 +21,7 @@ export default async function handler(
         id: userId,
       },
     });
+    
 
     if (!existingUser || typeof existingUser.id !== "string") {
       throw new Error("Invalid ID");

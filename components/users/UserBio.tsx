@@ -7,10 +7,11 @@ import Button from "../Button";
 import { BiCalendar } from "react-icons/bi";
 import useEditModal from "@/hooks/useEditModal";
 import useFollow from "@/hooks/useFollow";
-import { User } from "@prisma/client";
 
 import Link from "next/link";
 import useSubscribe from "@/hooks/useSubscribe";
+
+import useCreditModal from "@/hooks/useCreditModal";
 
 interface UserBioProps {
   userId: string;
@@ -21,6 +22,8 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
   const { data: fetchedUser } = useUser(userId);
 
   const editModal = useEditModal();
+
+  const creditModal = useCreditModal();
 
   const { isFollowing, toggleFollow } = useFollow(userId);
   const { isSubscribing, toggleSubscribe } = useSubscribe(userId);
@@ -37,7 +40,10 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
     <div className="border-b-[1px] border-neutral-800 pb-4">
       <div className="flex justify-end p-2">
         {currentUser?.id === userId ? (
-          <Button secondary label="Edit" onClick={editModal.onOpen} />
+          <div className="flex gap-2">
+            <Button secondary label="Edit" onClick={editModal.onOpen} />
+            <Button secondary label={"Credit: " + currentUser?.credit} onClick={creditModal.onOpen} />
+          </div>
         ) : (
           <div className="flex justify-center items-center md:flex-row flex-col gap-4">
             <Button
@@ -46,13 +52,15 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
               secondary={!isFollowing}
               outline={isFollowing}
             />
+            {fetchedUser?.subscriberPrice > 0.0 ? 
             <Button
               onClick={toggleSubscribe}
               label={isSubscribing ? "Cancel" : "Subscribe"}
               secondary={!isSubscribing}
               outline={isSubscribing}
-            />
-          </div>
+            />: null }
+          </div> 
+            
         )}
       </div>
       <div className="mt-8 px-4">
@@ -105,7 +113,17 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
                   Subscriber
                 </Link>
               </div>
-             
+            </div>
+            <div className="flex gap-2">
+              <div className="flex flex-row items-center gap-1">
+                <p className="text-white">{currentUser?.credit}</p>
+                <div
+                  onClick={creditModal.onOpen}
+                  className="text-neutral-500 cursor-pointer"
+                >
+                  Credit +
+                </div>
+              </div>
             </div>
           </div>
         ) : null}

@@ -18,6 +18,7 @@ const EditModal = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
+  const [subscriberPrice, setSubscriberPrice] = useState(0.0);
 
   useEffect(() => {
     setProfileImage(currentUser?.profileImage);
@@ -25,6 +26,7 @@ const EditModal = () => {
     setName(currentUser?.name);
     setUsername(currentUser?.username);
     setBio(currentUser?.bio);
+    setSubscriberPrice(currentUser?.subscriberPrice)
   }, [currentUser]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +34,7 @@ const EditModal = () => {
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
+      
 
       await axios.patch("/api/edit", {
         name,
@@ -39,6 +42,7 @@ const EditModal = () => {
         bio,
         profileImage,
         coverImage,
+        subscriberPrice
       });
       mutateFetchedUser();
 
@@ -58,6 +62,7 @@ const EditModal = () => {
     mutateFetchedUser,
     profileImage,
     coverImage,
+    subscriberPrice,
   ]);
 
   const bodyContent = (
@@ -90,6 +95,14 @@ const EditModal = () => {
         placeholder="Bio"
         onChange={(e) => setBio(e.target.value)}
         value={bio}
+        disabled={isLoading}
+      />
+      <div className="text-white">{currentUser?.subscriberPrice}</div>
+       <Input
+        placeholder="Subscriber Price"
+        type="Number"
+        onChange={(e) => setSubscriberPrice(Number(e.target.value))}
+        numberValue={subscriberPrice}
         disabled={isLoading}
       />
     </div>
