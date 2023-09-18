@@ -11,13 +11,13 @@ interface PostFeedProps {
 
 const PostFeed: React.FC<PostFeedProps> = ({ userId, postId }) => {
   const { data: posts = [] } = usePosts(userId);
-  const { data: currentUser } = useCurrentUser();
+ 
 
   return (
     <>
-      {posts ? posts.map((post: Record<string, any>,) => ( 
+      {postId ? (posts ? posts.map((post: Record<string, any>,) => ( 
         <PostItem postId={postId} userId={userId} key={post.id} data={post} />)
-      ) : []}
+      ) : [] ): []}
     </>
   );
 };
