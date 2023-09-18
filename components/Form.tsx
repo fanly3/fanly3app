@@ -112,7 +112,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
                   <option value={"4"}>Registered</option>
                 </select>
               </div>
-              <p className="text-white">{typeID}</p>
+             
 
               <Button
                 disabled={isLoading || !body}

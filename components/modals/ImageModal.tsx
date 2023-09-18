@@ -12,7 +12,7 @@ const ImageModal= () => {
   const bodyContent = (
     <div className="flex flex-col justify-center items-center">
      {imageModal?.path ? (
-              <div className="bg-neutral-700  h-80 w-80 object-fill  md:min-h-[600px] md:min-w-[480px]  relative">
+              <div className="bg-neutral-700  h-[480px] w-80 object-fill  md:min-h-[600px] md:min-w-[480px]  relative">
                 {imageModal?.path && (
                   <Image
                     src={imageModal?.path}
