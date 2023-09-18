@@ -6,7 +6,7 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 
 interface PostFeedProps {
   userId?: string;
-  postId: string;
+  postId?: string;
 }
 
 const PostFeed: React.FC<PostFeedProps> = ({ userId, postId }) => {
