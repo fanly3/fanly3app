@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { BsTwitter } from "react-icons/bs";
+
 import { Josefin_Sans } from 'next/font/google'
 
 const josefin = Josefin_Sans({ subsets: ['latin'] })

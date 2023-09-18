@@ -11,6 +11,7 @@ interface ModalProps {
   footer?: React.ReactElement;
   actionLabel: string;
   disabled?: boolean;
+  isNotShow?: boolean
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -22,6 +23,7 @@ const Modal: React.FC<ModalProps> = ({
   footer,
   actionLabel,
   disabled,
+  isNotShow
 }) => {
   const handleClose = useCallback(() => {
     if (disabled) {
@@ -85,7 +87,7 @@ const Modal: React.FC<ModalProps> = ({
               flex 
               items-center 
               justify-between 
-              p-10 
+              p-4
               rounded-t
               "
             >
@@ -105,8 +107,8 @@ const Modal: React.FC<ModalProps> = ({
               </button>
             </div>
             <div className="relative p-10 flex-auto">{body}</div>
-            <div className="flex flex-col gap-2 p-10">
-              <Button
+            <div className="flex flex-col gap-2 p-4">
+              {isNotShow ? null :  <Button
                 disabled={disabled}
                 label={actionLabel}
                 secondary
@@ -114,6 +116,7 @@ const Modal: React.FC<ModalProps> = ({
                 large
                 onClick={handleSubmit}
               ></Button>
+              }
               {footer}
             </div>
           </div>

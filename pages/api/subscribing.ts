@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { userId } = req.body;
+    const { userId, credit } = req.body;
 
     const { currentUser } = await serverAuth(req, res);
 
@@ -23,20 +23,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
 
+    if(credit <= 0 && user?.subscriberPrice && user?.subscriberPrice > 0.0){
+      throw new Error('Not Credit');
+    }
+    
+
     if (!user) {
       throw new Error('Invalid ID');
     }
 
-    let updatedFollowingIds = [...(user.followingIds || [])];
+    let updatedSubscribingIds = [...(currentUser.subscriberIds || [])];
 
     if (req.method === 'POST') {
-      updatedFollowingIds.push(userId);
+      updatedSubscribingIds.push(userId);
 
       // NOTIFICATION PART START
       try {
         await prisma.notification.create({
           data: {
-            body: 'Someone followed you!',
+            body: (currentUser.username + ' subscribed you!'),
             userId,
           },
         });
@@ -49,6 +54,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             hasNotification: true,
           }
         });
+
+        console.log("********----- " +credit)
+
+        if(credit > 0){
+          await prisma.user.update({
+            where: {
+              id: currentUser.id,
+            },
+            data: {
+              credit: credit,
+            }
+          });
+  
+        }
       } catch (error) {
         console.log(error);
       }
@@ -57,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'DELETE') {
-      updatedFollowingIds = updatedFollowingIds.filter((followingId) => followingId !== userId);
+      updatedSubscribingIds = updatedSubscribingIds.filter((subscribingId) => subscribingId !== userId);
     }
 
     const updatedUser = await prisma.user.update({
@@ -65,7 +84,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         id: currentUser.id
       },
       data: {
-        followingIds: updatedFollowingIds
+        subscriberIds: updatedSubscribingIds
       }
     });
 
