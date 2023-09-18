@@ -6,18 +6,18 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 
 interface PostFeedProps {
   userId?: string;
-  postId?: string;
+  
 }
 
-const PostFeed: React.FC<PostFeedProps> = ({ userId, postId }) => {
+const PostFeed: React.FC<PostFeedProps> = ({ userId }) => {
   const { data: posts = [] } = usePosts(userId);
  
 
   return (
     <>
-      {postId ? (posts ? posts.map((post: Record<string, any>,) => ( 
-        <PostItem postId={postId} userId={userId} key={post.id} data={post} />)
-      ) : [] ): []}
+      {posts ? posts.map((post: Record<string, any>,) => ( 
+        <PostItem postId={post.id} userId={userId} key={post.id} data={post} />)
+      ) : []}
     </>
   );
 };

@@ -10,7 +10,7 @@ export default function Home() {
     <>
     <Header showBackArrow label="Home"/>
     <Form placeholder="Whats happening"/>
-    <PostFeed/>
+    <PostFeed />
     </>
   )
 }
