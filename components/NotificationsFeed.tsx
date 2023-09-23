@@ -1,6 +1,5 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useNotifications from "@/hooks/useNotifications";
-import { formatDistanceToNowStrict } from "date-fns";
 import { useEffect, useMemo } from "react";
 import { BiSolidBellRing } from "react-icons/bi";
 

@@ -6,8 +6,10 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "../Modal";
 import Input from "../Input";
+import logo from "../../public/images/toncoinlogo.png"
 
 import useCreditModal from "@/hooks/useCreditModal";
+import Image from "next/image";
 
 const CreditModal = () => {
   const { data: currentUser } = useCurrentUser();
@@ -17,12 +19,12 @@ const CreditModal = () => {
   const [addcredit, setAddCredit] = useState(0.00);
   
   const price = (value: Number) => {
-    const total = Number(value) * 1.99;
+    const total = Number(value) * 2;
     return total;
   };
 
   useEffect(() => {
-    setAddCredit(currentUser?.credit);
+    setAddCredit(0);
   }, [currentUser]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +64,8 @@ const CreditModal = () => {
         numberValue={addcredit}
         disabled={isLoading}
       ></Input>
-      <div className="text-white p-4 bg-sky-500 rounded-xl text-xl">
-        Total Cost: {price(addcredit)} $ - {addcredit} credits
+      <div className="text-white p-4 bg-sky-500 rounded-xl items-center flex text-xl">
+        Total Cost: {price(addcredit)} <span className="px-1"><Image alt="logo" src={logo} width={28}></Image></span> - {addcredit} credits
       </div>
     </div>
   );

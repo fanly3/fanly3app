@@ -8,11 +8,14 @@ import { SessionProvider } from "next-auth/react";
 import EditModal from "@/components/modals/EditModal";
 import ImageModal from "@/components/modals/ImageModal";
 import CreditModal from "@/components/modals/CreditModal";
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
+
 
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
+      <TonConnectUIProvider manifestUrl="https://localhost:3000/tonconnect-manifest.json">
       <Toaster/>
       <CreditModal/>
       <EditModal/>
@@ -22,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
+      </TonConnectUIProvider>
     </SessionProvider>
   );
 }
