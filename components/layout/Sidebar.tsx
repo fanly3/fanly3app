@@ -7,6 +7,7 @@ import SidebarItem from "./SidebarItem";
 import SidebarTweetButton from "./SidebarTweetButton";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { signOut } from "next-auth/react";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
 const Sidebar = () => {
   const { data: currentUser } = useCurrentUser();

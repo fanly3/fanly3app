@@ -1,3 +1,5 @@
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { TonConnectButton } from "@tonconnect/ui-react";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { BiArrowBack } from "react-icons/bi";
@@ -9,10 +11,13 @@ interface HeaderProps{
 
 const Header: React.FC<HeaderProps> = ({label , showBackArrow}) => {
     const router = useRouter();
+    const {data : currentUser } = useCurrentUser();
+
     const handleBack = useCallback(()=> {
         router.back();
     }, [router])
-    return ( <div className="border-b-[1px] border-neutral-800 p-5">
+    return ( <div className="border-b-[1px] border-neutral-800 flex  justify-between p-5">
+        <div className="flex">
         <div className="flex flex-row items-center gap-2">
             {
                 showBackArrow && (
@@ -23,8 +28,10 @@ const Header: React.FC<HeaderProps> = ({label , showBackArrow}) => {
                     />
                 )
             }
-            <h1 className="text-white text-xl font-semibold">{label}</h1>
-        </div>
+            <h1 className="text-white text-xl font-semibold">{label}</h1></div>
+           
+
+        </div> {currentUser ? <TonConnectButton   /> : null} 
     </div> );
 }
  

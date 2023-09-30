@@ -113,7 +113,7 @@ const PostItem: React.FC<PostItemProps> = ({
         transition
       "
       >
-        <div className="flex flex-row items-start gap-3">
+        <div className="flex flex-row  items-start gap-3">
           <Avatar userId={data.user.id} />
           <div>
             <div className="flex justify-between items-center gap-2  sm:gap-8 md:gap-36 ">
@@ -153,7 +153,7 @@ const PostItem: React.FC<PostItemProps> = ({
                 </div>
               ) : null}
             </div>
-            <div className="text-white mt-1">{data.body}</div>
+            <div className="text-white mt-1 pr-8 overflow-hidden break-all">{data.body}</div>
             <div className="pt-4" onClick={goToImage}>
               {data.mediaId !== "" ? (
                 <PostImage fetchedUserId={data.userId} mediaId={data.mediaId} postId={data.id}/>
