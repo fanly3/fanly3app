@@ -10,7 +10,7 @@ export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-
+      
     }),
     CredentialsProvider({
       name: 'credentials',
